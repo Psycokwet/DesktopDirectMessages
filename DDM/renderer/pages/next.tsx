@@ -30,7 +30,7 @@ function Next() {
           with Nextron
         </Typography>
         <Typography gutterBottom>
-          <Link href="/home">Go to the home page</Link>
+          <Link href="/signIn">Go to the signIn page</Link>
         </Typography>
         <Button variant="contained" color="primary">
           Do nothing button
