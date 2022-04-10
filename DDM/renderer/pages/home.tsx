@@ -15,9 +15,10 @@ import Link from "../components/Link";
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import Keychain from "../lib/shared/Keychain";
 
 import electron from "electron";
-const ipcRenderer = electron.ipcRenderer || false;
+const ipcRenderer = electron.ipcRenderer;
 import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,7 +55,10 @@ function Home() {
   function clickConnect(e) {
     e.preventDefault();
     // setLoading(() => true);
-    // ipcRenderer.send("connect", { userName: userName, password: password });
+    ipcRenderer.send(Keychain.connection, {
+      userName: userName,
+      password: password,
+    });
   }
 
   return (

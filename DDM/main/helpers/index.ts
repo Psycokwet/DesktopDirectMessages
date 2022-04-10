@@ -1,5 +1,4 @@
-import createWindow from './create-window';
+import createWindow from "./create-window";
+import Keychain from "./shared/Keychain";
 
-export {
-  createWindow,
-};
+export { createWindow, Keychain };
