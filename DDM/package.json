@@ -6,9 +6,12 @@
   "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
   "main": "app/background.js",
   "scripts": {
-    "dev": "nextron",
-    "build": "nextron build",
-    "postinstall": "electron-builder install-app-deps"
+    "dev": "npm run prelaunch && nextron",
+    "build": "npm run prelaunch && nextron build",
+    "postinstall": "electron-builder install-app-deps",
+    "prelaunch": "npm run cpcvShared",
+    "gitacp": "node ../scripts/g.js",
+	"cpcvShared": "node ../scripts/cpcvShared.js"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",

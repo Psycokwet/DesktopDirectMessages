@@ -3,7 +3,7 @@ import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      //   backgroundColor: "LIGHTSKYBLUE",
       textAlign: "center",
       paddingTop: theme.spacing(4),
     },
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function signIn() {
+function Home() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isPwdProtected, setIsPwdProtected] = useState(false);
@@ -72,6 +73,7 @@ function signIn() {
           >
             <Grid item xs={12}>
               <TextField
+                style={{ width: 212 }}
                 placeholder="Username"
                 // variant="outlined"
                 value={userName}
@@ -108,7 +110,7 @@ function signIn() {
                             setisHiddenPwd((current) => !current);
                         }}
                       >
-                        <AccessAlarmIcon
+                        <VisibilityIcon
                           style={{
                             filter: `invert(${
                               isHiddenPwd === true ? 50 : 100
@@ -166,4 +168,4 @@ function signIn() {
   );
 }
 
-export default signIn;
+export default Home;
