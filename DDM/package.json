@@ -11,13 +11,14 @@
     "postinstall": "electron-builder install-app-deps",
     "prelaunch": "npm run cpcvShared",
     "gitacp": "node ../scripts/g.js",
-	"cpcvShared": "node ../scripts/cpcvShared.js"
+    "cpcvShared": "node ../scripts/cpcvShared.js"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.0",
     "@mui/material": "^5.6.0",
+    "dotenv": "^16.0.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.1"
   },
