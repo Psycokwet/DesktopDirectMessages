@@ -20,7 +20,6 @@ import Keychain from "../lib/shared/Keychain";
 import electron from "electron";
 const ipcRenderer = electron.ipcRenderer;
 import { useRouter } from "next/router";
-import { listeners } from "process";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,8 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function Home() {
-  const [authLink, setAuthLink] = useState("");
-  const [pinCode, setPinCode] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isPwdProtected, setIsPwdProtected] = useState(false);
   const [isHiddenPwd, setisHiddenPwd] = useState(true);
@@ -54,25 +52,13 @@ function Home() {
   const handleClose = () => setOpen(false);
   const handleClick = () => setOpen(true);
 
-  useEffect(() => {
-    var listenerAuthLink;
-    if (ipcRenderer) {
-      ipcRenderer.send(Keychain.retrieveAuthLink);
-      listenerAuthLink = (event, authLink) => {
-        setAuthLink(authLink);
-      };
-
-      ipcRenderer.on(Keychain.retrieveAuthLink, listenerAuthLink);
-    }
-    return () => {
-      if (ipcRenderer)
-        ipcRenderer.removeListener(Keychain.retrieveAuthLink, listenerAuthLink);
-    };
-  }, []);
   function clickConnect(e) {
     e.preventDefault();
     // setLoading(() => true);
-    ipcRenderer.send(Keychain.connection, pinCode);
+    ipcRenderer.send(Keychain.connection, {
+      userName: userName,
+      password: password,
+    });
   }
 
   return (
@@ -90,19 +76,55 @@ function Home() {
             spacing={3} // alignItems="stretch"
           >
             <Grid item xs={12}>
-              {authLink}
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 style={{ width: 212 }}
-                placeholder="Pin code"
+                placeholder="Username"
                 // variant="outlined"
-                value={pinCode}
+                value={userName}
                 onChange={(e) =>
-                  setPinCode(() => {
+                  setUserName(() => {
                     return e.target.value;
                   })
                 }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                placeholder="Password"
+                type={isHiddenPwd === true ? "password" : "text"}
+                value={password}
+                onChange={(e) => {
+                  if (!isPwdProtected) setPassword(e.target.value);
+                  else {
+                    setIsPwdProtected(false);
+                    setPassword("");
+                  }
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <div
+                    // className={{
+                    //   backgroundColor: "white",
+                    // }}
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          if (!isPwdProtected)
+                            setisHiddenPwd((current) => !current);
+                        }}
+                      >
+                        <VisibilityIcon
+                          style={{
+                            filter: `invert(${
+                              isHiddenPwd === true ? 50 : 100
+                            }%)`,
+                          }}
+                        />
+                      </IconButton>
+                    </div>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -114,8 +136,6 @@ function Home() {
               >
                 Sign in
               </Button>
-
-              <Link href="/next">Go to the next page</Link>
             </Grid>
             {/* <Grid>
               <IsLoading loading={loading}></IsLoading>
